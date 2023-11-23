@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deusa</title>
+    <style>
+        body {
+            font-family: 'Verdana', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #ffc0cb;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #ff1493;
+            margin-bottom: 20px;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        .background-image {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+        }
+
+        .button-container {
+            position: relative;
+            flex: 1;
+        }
+
+        .button-image {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: auto;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease-out;
+            z-index: 2; /* Adicionado um índice Z para garantir que o botão fique acima da imagem */
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        #naoButton {
+            position: absolute;
+        }
+
+        #resposta {
+            color: #ff1493;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .confete {
+            width: 10px;
+            height: 10px;
+            background-color: #ff69b4;
+            position: absolute;
+            border-radius: 50%;
+            animation: confeteAnimation linear infinite;
+        }
+
+        @keyframes confeteAnimation {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(500px) rotate(720deg);
+            }
+        }
+
+        /* Adicionando regras de estilo para dispositivos móveis */
+        @media only screen and (max-width: 600px) {
+            .image-container {
+                margin-bottom: 10px;
+            }
+
+            .button-image {
+                width: 30px;
+            }
+
+            button {
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vem dormir comigo hoje?</h1>
+
+    <div class="image-container">
+        <img src="https://imgs.search.brave.com/-fFmv9d0EcbqxR8UupAe4_KhjHE4fAE-NfAqxfvBnOI/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzU0LzQx/LzNkLzU0NDEzZGU4/YzJmYTBjMWE5ZmY1/MzQ3NTVjYmRjOWE2/LmpwZw" alt="Imagem de fundo" class="background-image">
+    </div>
+
+    <div class="buttons-container">
+        <div class="button-container">
+            <img src="https://example.com/link-da-imagem" alt="" class="button-image">
+            <button id="simButton" onclick="responderPedido(true)">Sim</button>
+        </div>
+        <div class="button-container">
+            <img src="https://example.com/link-da-imagem" alt="" class="button-image">
+            <button id="naoButton" onclick="fugirDoCursor()">Não</button>
+        </div>
+    </div>
+
+    <div id="resposta"></div>
+
+    <script>
+        function fugirDoCursor() {
+            var naoButton = document.getElementById('naoButton');
+            naoButton.addEventListener('mousemove', mover);
+
+            function mover() {
+                var newX = Math.random() * (window.innerWidth - 100);
+                var newY = Math.random() * (window.innerHeight - 40);
+                naoButton.style.left = newX + 'px';
+                naoButton.style.top = newY + 'px';
+            }
+        }
+
+        function responderPedido(aceito) {
+            var respostaDiv = document.getElementById('resposta');
+            var simButton = document.getElementById('simButton');
+            var naoButton = document.getElementById('naoButton');
+
+            if (aceito) {
+                respostaDiv.innerHTML = 'Me avise quando estiver chegando! Estou te esperando ❤️';
+                criarConfetes();
+            } else {
+                respostaDiv.textContent = 'Isso não é possível!';
+            }
+
+            simButton.disabled = true;
+            naoButton.disabled = true;
+        }
+
+        function criarConfetes() {
+            for (let i = 0; i < 50; i++) {
+                criarConfete();
+            }
+        }
+
+        function criarConfete() {
+            var confete = document.createElement('div');
+            confete.className = 'confete';
+            confete.style.left = Math.random() * window.innerWidth + 'px';
+            confete.style.animationDuration = Math.random() * 2 + 1 + 's';
+            document.body.appendChild(confete);
+
+            confete.addEventListener('animationend', function () {
+                confete.remove();
+            });
+        }
+    </script>
+
+</body>
+</html>
